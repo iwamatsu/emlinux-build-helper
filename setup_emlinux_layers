@@ -1,0 +1,29 @@
+!/bin/bash
+
+REPO_DIR=$1
+MACHINE=$2
+DIST=$3
+IMAGE=$4
+
+# set env
+if [ -e ${REPO_DIR}/poky/oe-init-build-env ]; then
+    source ${REPO_DIR}/poky/oe-init-build-env \
+	       build_${MACHINE}_${DIST}_${IMAGE}
+else
+    exit 1
+fi
+
+# add layer
+if [ -e ../${REPO_DIR}/meta-debian-extended ]; then
+    bitbake-layers add-layer ../${REPO_DIR}/meta-debian-extended
+else
+    exit 1
+fi
+
+if [ -e ../${REPO_DIR}/meta-emlinux ]; then
+    bitbake-layers add-layer ../${REPO_DIR}/meta-emlinux
+else
+    exit 1
+fi
+
+exit 0

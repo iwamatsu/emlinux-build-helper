@@ -1,0 +1,27 @@
+#!/bin/bash
+
+REPO_DIR=$1
+MACHINE=$2
+DIST=$3
+IMAGE=$4
+
+# set env
+if [ -e ${REPO_DIR}/poky/oe-init-build-env ]; then
+    source ${REPO_DIR}/poky/oe-init-build-env \
+	       build_${MACHINE}_${DIST}_${IMAGE}
+else
+    exit 1
+fi
+
+# BBMASK
+echo "BBMASK = \"meta-debian/recipes-core\"" >> ./conf/local.conf
+echo "BBMASK .= \"|meta-debian-extended/recipes-debian/base-files/base-files_debian.bb\"" >> ./conf/local.conf
+
+# kernel
+echo "LINUX_GIT_PREFIX = \"\"" >> ./conf/local.conf
+echo "LINUX_GIT_URI = \"git://git.kernel.org/pub/scm/linux/kernel/git/cip/\"" >> ./conf/local.conf
+echo "LINUX_GIT_PROTOCOL = \"https\"" >> ./conf/local.conf
+echo "LINUX_GIT_REPO = \"linux-cip.git\"" >> ./conf/local.conf
+echo "LINUX_GIT_SRCREV = \"linux-4.19.y-cip\"" >> ./conf/local.conf
+
+exit 0
