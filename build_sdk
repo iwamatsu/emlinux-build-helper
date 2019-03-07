@@ -1,0 +1,17 @@
+#!/bin/bash
+
+REPO_DIR=$1
+MACHINE=$2
+DIST=$3
+IMAGE=$4
+
+# set env
+if [ -e ${REPO_DIR}/poky/oe-init-build-env ]; then
+    source ${REPO_DIR}/poky/oe-init-build-env \
+               build_${MACHINE}_${DIST}_${IMAGE}
+else
+    exit 1
+fi
+
+MACHINE=${MACHINE} bitbake ${IMAGE} -c populate_sdk
+
