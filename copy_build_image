@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# for httpd server version
+
+REPO_DIR=$1
+MACHINE=$2
+DIST=$3
+IMAGE=$4
+BUILD_DATE=$5
+
+IMAGE_PATH=build_${MACHINE}_${DIST}_${IMAGE}/tmp/deploy/images/${MACHINE}
+if [ ! -e ${IMAGE_PATH} ] ; then
+    IMAGE_PATH=build_${MACHINE}_${DIST}_${IMAGE}/tmp-glibc/deploy/images/${MACHINE}
+    if [ ! -e ${IMAGE_PATH} ] ; then
+        return 1;
+    fi
+fi
+
+# FIX set strage path
+COPY_IMAGE_PATH=../../../../buildbot-strage/build_${MACHINE}_${DIST}_${IMAGE}/${BUILD_DATE}
+if [ ! -e ${COPY_IMAGE_PATH} ] ; then
+    mkdir -p ${COPY_IMAGE_PATH}
+fi
+
+cp -rf ${IMAGE_PATH}/* ${COPY_IMAGE_PATH}
