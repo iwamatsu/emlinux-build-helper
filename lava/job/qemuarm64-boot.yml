@@ -1,0 +1,49 @@
+# boot test / QEMU arm64
+device_type: qemu
+job_name: QEMU arm64 ,boot test
+
+timeouts:
+  job:
+    minutes: 15
+  action:
+    minutes: 5
+  connection:
+    minutes: 2
+priority: medium
+visibility: public
+
+context:
+  arch: aarch64
+  memory: 512
+  # comment out or change to user if the dispatcher does not support bridging.
+  # netdevice: tap
+  cpu: cortex-a57
+  extra_options:
+  - -smp
+  - 1
+
+actions:
+- deploy:
+    timeout:
+      minutes: 3
+    to: tmpfs
+    os:
+    images:
+      kernel:
+        image_arg: '-kernel {kernel} -append "root=/dev/vda rw highres=off console=ttyAMA0,38400"'
+        url: DEPLOY_DIR/Image
+      rootfs:
+        image_arg: '-drive id=disk0,file={rootfs},if=none,format=raw -device virtio-blk-device,drive=disk0'
+        url: DEPLOY_DIR/core-image-minimal-qemuarm64.ext4
+
+# BOOT_BLOCK
+- boot:
+    timeout:
+      minutes: 2
+    method: qemu
+    media: tmpfs
+    auto_login:
+      login_prompt: "qemuarm64 login:"
+      username: root
+    prompts:
+      - "root@qemuarm64:~# "

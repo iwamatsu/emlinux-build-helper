@@ -19,7 +19,8 @@ fi
 # FIX set strage path
 COPY_IMAGE_PATH=../../../../buildbot-strage/build_${MACHINE}_${DIST}_${IMAGE}/${BUILD_DATE}
 if [ ! -e ${COPY_IMAGE_PATH} ] ; then
-    mkdir -p ${COPY_IMAGE_PATH}
+    mkdir -p -m 755 ${COPY_IMAGE_PATH}
 fi
 
 cp -rf ${IMAGE_PATH}/* ${COPY_IMAGE_PATH}
+chmod 755 ${COPY_IMAGE_PATH}/*
