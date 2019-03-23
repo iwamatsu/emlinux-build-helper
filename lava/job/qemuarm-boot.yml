@@ -1,5 +1,6 @@
+# boot test emlinux / QEMU arm
 device_type: qemu
-job_name: QEMU armhf ca9 , boot test
+job_name: QEMU arm , boot test with emlinux
 
 timeouts:
   job:
@@ -16,12 +17,8 @@ context:
   memory: 512
   # comment out or change to user if the dispatcher does not support bridging.
   # netdevice: tap
-  machine: vexpress-a9
-  cpu: cortex-a9
-  model: model=lan9118
-  extra_options:
-  - -smp
-  - 1
+  machine: virt
+  cpu: cortex-a15
 
 actions:
 - deploy:
@@ -31,14 +28,11 @@ actions:
     os:
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 root=/dev/mmcblk0"'
+        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200"'
         url: DEPLOY_DIR/zImage
-      dtb:
-        image_arg: '-dtb {dtb}'
-        url: DEPLOY_DIR/vexpress-v2p-ca9-qemuarmhf-ca9.dtb
       rootfs:
-        image_arg: '-drive file={rootfs},if=sd,format=raw'
-        url: DEPLOY_DIR/core-image-minimal-qemuarmhf-ca9.ext4 
+        image_arg: '-drive id=disk0,file={rootfs},if=none,format=raw -device virtio-blk-device,drive=disk0'
+        url: DEPLOY_DIR/core-image-minimal-qemuarm.ext4 
 # BOOT_BLOCK
 - boot:
     timeout:
@@ -46,8 +40,7 @@ actions:
     method: qemu
     media: tmpfs
     auto_login:
-      login_prompt: "qemuarmhf-ca9 login:"
+      login_prompt: "qemuarm login:"
       username: root
     prompts:
-      - "root@qemuarmhf-ca9:~# "
-
+      - "root@qemuarm:~# "
