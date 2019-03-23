@@ -1,0 +1,16 @@
+# TEST BLOCK
+- test:
+    timeout:
+      minutes: 100
+    definitions:
+    - repository:
+        metadata:
+          name: ptest
+          description: "OE/ptest"
+          os:
+          - oe
+          scope:
+          - functional
+        run:
+          steps:
+          - /usr/bin/ptest-runner
