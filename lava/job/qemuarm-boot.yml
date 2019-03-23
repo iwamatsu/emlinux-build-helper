@@ -28,7 +28,7 @@ actions:
     os:
     images:
       kernel:
-        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200"'
+        image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 root=/dev/vda rw highres=off debug verbose"'
         url: DEPLOY_DIR/zImage
       rootfs:
         image_arg: '-drive id=disk0,file={rootfs},if=none,format=raw -device virtio-blk-device,drive=disk0'
