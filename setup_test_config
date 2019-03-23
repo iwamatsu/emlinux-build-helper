@@ -1,0 +1,20 @@
+#!/bin/bash
+
+REPO_DIR=$1
+MACHINE=$2
+DIST=$3
+IMAGE=$4
+
+# set env
+if [ -e ${REPO_DIR}/poky/oe-init-build-env ]; then
+    source ${REPO_DIR}/poky/oe-init-build-env \
+	       build_${MACHINE}_${DIST}_${IMAGE}
+else
+    exit 1
+fi
+
+echo "CORE_IMAGE_EXTRA_INSTALL += \"ltp\"" >> ./conf/local.conf
+echo "DISTRO_FEATURES_append = \" ptest\"" >> ./conf/local.conf
+echo "EXTRA_IMAGE_FEATURES += \"ptest-pkgs\"" >> ./conf/local.conf
+
+exit 0
