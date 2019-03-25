@@ -6,13 +6,16 @@ DIST=$3
 IMAGE=$4
 BUILD_DATE=$5
 
+STRAGE_SERVER=172.20.0.1:8888
+LAVA_SERVER=localhost:10080
+
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 
 tmpyml=$(mktemp "/tmp/XXXXXX.yml")
 # 172.20.0.1 is host
-HTTP_STRAGE_URL=http://172.20.0.1:8888/build_${MACHINE}_${DIST}_${IMAGE}/${BUILD_DATE}
+HTTP_STRAGE_URL=http://${STRAGE_SERVER}/build_${MACHINE}_${DIST}_${IMAGE}/${BUILD_DATE}
 sed -e "s@DEPLOY_DIR@${HTTP_STRAGE_URL}@g" ${SCRIPT_DIR}/lava/job/${MACHINE}-boot.yml > $tmpyml
 
-/usr/bin/lava-tool submit-job http://buildbot@localhost:10080/RPC2/ $tmpyml
+/usr/bin/lava-tool submit-job http://buildbot@${LAVA_SERVER}/RPC2/ $tmpyml
 
 rm -f $tmpyml
