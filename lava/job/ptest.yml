@@ -1,16 +1,23 @@
-# TEST BLOCK
 - test:
     timeout:
-      minutes: 100
+      hours: 1
     definitions:
     - repository:
         metadata:
-          name: ptest
-          description: "OE/ptest"
+          format: Lava-Test Test Definition 1.0
+          name: simple
+          description: "using ptest test plan"
           os:
           - oe
           scope:
           - functional
         run:
           steps:
-          - /usr/bin/ptest-runner
+          - /usr/bin/ptest-runner bash
+          - /usr/bin/ptest-runner zlib
+          - /usr/bin/ptest-runner busybox
+          - /usr/bin/ptest-runner util-linux
+          - /usr/bin/ptest-runner openssl
+      from: inline
+      name: ptest
+      path: inline/ptest.yaml

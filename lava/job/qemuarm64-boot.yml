@@ -27,7 +27,7 @@ actions:
     timeout:
       minutes: 3
     to: tmpfs
-    os:
+    os: oe
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "root=/dev/vda rw highres=off console=ttyAMA0,38400"'

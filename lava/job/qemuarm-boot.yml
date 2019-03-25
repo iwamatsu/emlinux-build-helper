@@ -6,26 +6,25 @@ timeouts:
   job:
     minutes: 15
   action:
-    minutes: 5
+    minutes: 10
   connection:
-    minutes: 2
+    minutes: 10
 priority: medium
 visibility: public
 
 context:
   arch: arm
   memory: 512
-  # comment out or change to user if the dispatcher does not support bridging.
-  # netdevice: tap
   machine: virt
   cpu: cortex-a15
+  guestfs_interface: virtio
 
 actions:
 - deploy:
     timeout:
       minutes: 3
     to: tmpfs
-    os:
+    os: oe
     images:
       kernel:
         image_arg: '-kernel {kernel} -append "console=ttyAMA0,115200 root=/dev/vda rw highres=off debug verbose"'
