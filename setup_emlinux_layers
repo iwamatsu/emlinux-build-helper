@@ -14,11 +14,11 @@ else
 fi
 
 # add layer
-if [ -e ../${REPO_DIR}/meta-debian-extended ]; then
-    bitbake-layers add-layer ../${REPO_DIR}/meta-debian-extended
-else
-    exit 1
-fi
+#if [ -e ../${REPO_DIR}/meta-debian-extended ]; then
+#    bitbake-layers add-layer ../${REPO_DIR}/meta-debian-extended
+#else
+#    exit 1
+#fi
 
 if [ -e ../${REPO_DIR}/meta-emlinux ]; then
     bitbake-layers add-layer ../${REPO_DIR}/meta-emlinux
