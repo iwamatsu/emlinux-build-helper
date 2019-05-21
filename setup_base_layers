@@ -13,17 +13,6 @@ else
     exit 1
 fi
 
-# remove layers
-bitbake-layers remove-layer meta-poky
-if [ $? -ne 0 ]; then
-    exit 1
-fi
-
-bitbake-layers remove-layer meta-yocto-bsp
-if [ $? -ne 0 ]; then
-    exit 1
-fi
-
 # add layer
 if [ -e ../${REPO_DIR}/meta-debian ]; then
     bitbake-layers add-layer ../${REPO_DIR}/meta-debian
